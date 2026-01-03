@@ -1,8 +1,7 @@
 from bizmitra.services.risk_api_client import get_risk
 def generate_insights(features):
     insights = []
-
-    risk_score = float(get_risk(features))
+    risk_score = float(features.get("risk_score", 0))
     unpaid_ratio = features["unpaid_ratio"]
     avg_bill = features["avg_bill_value"]
 
