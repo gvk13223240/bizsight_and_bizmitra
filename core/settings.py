@@ -187,6 +187,7 @@ CSRF_TRUSTED_ORIGINS = env.list(
     "CSRF_TRUSTED_ORIGINS",
     default=[
         "https://bizsightandbizmitra-production.up.railway.app",
+        
         "https://bizsight-hq7l.onrender.com",
     ],
 )
