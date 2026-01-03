@@ -1,6 +1,6 @@
 from billing.models import Bill
 from django.db.models import Avg, Sum
-from bizmitra.services.tf_risk_model import predict_risk
+from bizmitra.services.risk_api_client import get_risk
 
 def build_business_features(business):
     bills = Bill.objects.filter(business=business, is_deleted=False)
