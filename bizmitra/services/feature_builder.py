@@ -38,6 +38,6 @@ def build_business_features(business):
         "sales_trend": sales_trend,
     }
 
-    features["risk_score"] = predict_risk(features)
+    features["risk_score"] = get_risk(features)
 
     return features
