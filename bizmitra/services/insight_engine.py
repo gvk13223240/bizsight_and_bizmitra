@@ -1,13 +1,12 @@
-from .tf_risk_model import predict_risk
-
+from bizmitra.services.risk_api_client import get_risk
 def generate_insights(features):
     insights = []
 
-    risk_score = float(predict_risk(features))
+    risk_score = float(get_risk(features))
     unpaid_ratio = features["unpaid_ratio"]
     avg_bill = features["avg_bill_value"]
 
-    # 1️⃣ ML risk insight (ALWAYS shown)
+    # ML risk insight (ALWAYS shown)
     insights.append({
         "level": "risk" if risk_score > 0.6 else "success",
         "title": "ML Cash-Flow Risk Forecast",
@@ -20,7 +19,7 @@ def generate_insights(features):
         ),
     })
 
-    # 2️⃣ Unpaid exposure (ONLY if real)
+    # Unpaid exposure (ONLY if real)
     if unpaid_ratio > 0.3:
         insights.append({
             "level": "warning",
@@ -30,7 +29,7 @@ def generate_insights(features):
             "recommendation": "Enable reminders or advance payments.",
         })
 
-    # 3️⃣ Average bill value
+    # Average bill value
     if avg_bill < 1000:
         insights.append({
             "level": "warning",
