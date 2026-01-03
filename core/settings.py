@@ -13,7 +13,7 @@ SECRET_KEY = config("DJANGO_SECRET_KEY")
 
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", "bizsight-hq7l.onrender.com"]
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "bizsight-hq7l.onrender.com", "bizsightandbizmitra-production.up.railway.app"]
 
 INSTALLED_APPS = [
     "django.contrib.admin",
