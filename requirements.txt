@@ -1,0 +1,27 @@
+Django>=4.2,<5.0
+gunicorn>=21.2.0
+
+# Environment & config
+python-decouple>=3.8
+
+# Database utils
+psycopg2-binary>=2.9.9
+
+# Analytics & data
+pandas>=2.1.0
+numpy>=1.24.0
+
+# Machine Learning
+tensorflow-cpu>=2.13.0
+scikit-learn>=1.3.0
+joblib>=1.3.2
+
+# PDFs & reports
+reportlab>=4.0.8
+openpyxl>=3.1.2
+
+# HTTP & integrations
+requests>=2.31.0
+
+# Auth (if using allauth)
+django-allauth>=0.57.0
