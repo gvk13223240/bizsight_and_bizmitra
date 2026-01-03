@@ -126,3 +126,6 @@ DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL")
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 BUSINESS_UPI_ID = config("BUSINESS_UPI_ID", default="add-your-own")
+CSRF_TRUSTED_ORIGINS = [
+    "https://bizsightandbizmitra-production.up.railway.app",
+]
