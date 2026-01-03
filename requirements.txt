@@ -5,6 +5,7 @@ qrcode
 python-decouple>=3.8
 django-crispy-forms>=2.0
 crispy-bootstrap5>=0.7
+pillow>=10.0.0
 
 # Database utils
 psycopg2-binary>=2.9.9
