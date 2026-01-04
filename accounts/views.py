@@ -158,7 +158,7 @@ def signup_view(request):
             )
             messages.success(
                 request,
-                "Verification link sent to your email. Please check your inbox.",
+                "Account created successfully. Please log in.",
             )
             return redirect("login")
         except Exception as e:
