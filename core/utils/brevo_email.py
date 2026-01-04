@@ -1,13 +1,15 @@
+import os
 import requests
-from django.conf import settings
 
+BREVO_API_KEY = os.environ.get("BREVO_API_KEY")
+DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL")
 
 def send_email(subject, html_content, to_email):
     url = "https://api.brevo.com/v3/smtp/email"
 
     payload = {
         "sender": {
-            "email": settings.DEFAULT_FROM_EMAIL,
+            "email": DEFAULT_FROM_EMAIL,
             "name": "BizSight"
         },
         "to": [{"email": to_email}],
@@ -16,10 +18,10 @@ def send_email(subject, html_content, to_email):
     }
 
     headers = {
-        "api-key": settings.BREVO_API_KEY,
         "accept": "application/json",
+        "api-key": BREVO_API_KEY,
         "content-type": "application/json",
     }
 
-    response = requests.post(url, json=payload, headers=headers, timeout=10)
+    response = requests.post(url, json=payload, headers=headers)
     response.raise_for_status()
