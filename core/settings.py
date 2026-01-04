@@ -81,7 +81,6 @@ AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
 ]
 
-# ✅ Custom adapter → Brevo API
 ACCOUNT_ADAPTER = "core.utils.allauth_email_adapter.CustomAccountAdapter"
 
 # =========================
