@@ -11,9 +11,7 @@ import environ
 # =========================
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-env = environ.Env(
-    DEBUG=(bool, False),
-)
+env = environ.Env(DEBUG=(bool, False))
 environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 
 # =========================
@@ -83,6 +81,9 @@ AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
 ]
 
+# ✅ Custom adapter → Brevo API
+ACCOUNT_ADAPTER = "core.utils.allauth_email_adapter.CustomAccountAdapter"
+
 # =========================
 # Middleware
 # =========================
@@ -129,7 +130,10 @@ TEMPLATES = [
 # Database
 # =========================
 DATABASES = {
-    "default": env.db("DATABASE_URL", default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}")
+    "default": env.db(
+        "DATABASE_URL",
+        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}"
+    )
 }
 
 # =========================
@@ -168,16 +172,9 @@ CSRF_COOKIE_SECURE = not DEBUG
 SESSION_COOKIE_SAMESITE = "Lax"
 
 # =========================
-# Email (TEMP: SMTP – will replace with Brevo API)
+# Email (Brevo API — NO SMTP)
 # =========================
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-
-EMAIL_HOST = env("EMAIL_HOST")
-EMAIL_PORT = env.int("EMAIL_PORT")
-EMAIL_HOST_USER = env("EMAIL_HOST_USER")
-EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
-EMAIL_USE_TLS = env.bool("EMAIL_USE_TLS", default=True)
-
+EMAIL_BACKEND = "django.core.mail.backends.dummy.EmailBackend"
 DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL")
 
 # =========================
