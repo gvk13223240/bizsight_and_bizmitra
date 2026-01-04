@@ -128,7 +128,7 @@ def signup_view(request):
             email=email,
             password=password,
         )
-        user.is_active = False
+        user.is_active = True
         user.save()
 
         uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
