@@ -169,9 +169,11 @@ EMAIL_HOST = env("EMAIL_HOST")
 EMAIL_PORT = env.int("EMAIL_PORT")
 EMAIL_HOST_USER = env("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
-EMAIL_USE_TLS = env.bool("EMAIL_USE_TLS", default=True)
+EMAIL_USE_TLS = env.bool("EMAIL_USE_TLS")
 DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL")
 
+ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=["*"])
+DEBUG = env.bool("DEBUG", default=False)
 
 # Optional: console backend toggle for dev/demo
 USE_CONSOLE_EMAIL = env.bool("USE_CONSOLE_EMAIL", default=False)
