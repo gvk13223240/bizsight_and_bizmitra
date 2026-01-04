@@ -174,7 +174,7 @@ SESSION_COOKIE_SAMESITE = "Lax"
 # Email (Brevo API — NO SMTP)
 # =========================
 # EMAIL_BACKEND = "django.core.mail.backends.dummy.EmailBackend
-BREVO_API_KEY = env("BREVO_API_KEY")
+# BREVO_API_KEY = env("BREVO_API_KEY")
 DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL")
 
 # =========================
