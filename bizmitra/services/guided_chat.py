@@ -1,7 +1,12 @@
 def get_guided_response(features, query):
+    if features.get("bills_count", 0) == 0:
+        return (
+            "You don’t have any bills yet. "
+            "Add your first bill to unlock insights and guidance."
+        )
+
     query = query.lower()
 
-    # ✅ SAFE extraction (NO KeyErrors)
     unpaid_ratio = features.get("unpaid_ratio", 0)
     avg_bill = features.get("avg_bill_value", 0)
     total_sales = features.get("total_sales", 0)
