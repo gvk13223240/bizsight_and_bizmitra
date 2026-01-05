@@ -9,7 +9,7 @@ def guided_chat_view(request):
         return redirect("/accounts/login/")
 
     bills = business.bills.all()
-    features = build_business_features(business)
+    features = build_business_features(bills)
 
     response = None
     user_query = None
