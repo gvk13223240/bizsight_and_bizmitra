@@ -1,6 +1,6 @@
 def build_business_features(bills):
     """
-    Build features safely even if bills are empty
+    Build features safely even when there are no bills
     """
 
     bills_count = bills.count()
