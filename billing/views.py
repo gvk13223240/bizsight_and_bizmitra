@@ -195,11 +195,11 @@ def create_bill_view(request):
                 reference_id=None
             )
 
-        if bill.email_required:
-            pdf_path = generate_invoice_pdf(bill, business)
-            send_invoice_email(bill, pdf_path)
-            bill.email_sent = True
-            bill.save(update_fields=["email_sent"])
+        # if bill.email_required:
+        #     pdf_path = generate_invoice_pdf(bill, business)
+        #     send_invoice_email(bill, pdf_path)
+        #     bill.email_sent = True
+        #     bill.save(update_fields=["email_sent"])
 
         messages.success(request, "Bill created successfully")
 
