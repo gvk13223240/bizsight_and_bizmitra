@@ -5,14 +5,19 @@ from accounts.utils import get_current_business
 from bizmitra.services.feature_builder import build_business_features
 from bizmitra.services.alerts_engine import generate_alerts
 
-
 def alerts_view(request):
     business = get_current_business(request)
     if not business:
         return redirect("/accounts/login/")
-    bills = business.bills.all()
-    features = build_business_features(bills)
-    alerts = generate_alerts(features)
+
+    features = build_business_features(business)
+
+    if features["bills_count"] == 0:
+        alerts = [
+            "No bills found. Alerts will appear once billing data is available."
+        ]
+    else:
+        alerts = generate_alerts(features)
 
     return render(request, "bizmitra/alerts.html", {
         "business": business,
