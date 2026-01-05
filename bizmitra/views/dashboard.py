@@ -9,13 +9,18 @@ def dashboard_view(request):
     if not business:
         return redirect("/accounts/login/")
 
-    features = build_business_features(business)
+    bills = business.bills.all()
+    features = build_business_features(bills)
     insights = generate_insights(features)
 
-    return render(request, "bizmitra/dashboard.html", {
-        "business": business,
-        "features": features,
-        "insights": insights,
-        "features_json": json.dumps(features),
-        "insights_json": json.dumps(insights),
-    })
+    return render(
+        request,
+        "bizmitra/dashboard.html",
+        {
+            "business": business,
+            "features": features,
+            "insights": insights,
+            "features_json": json.dumps(features),
+            "insights_json": json.dumps(insights),
+        }
+    )
