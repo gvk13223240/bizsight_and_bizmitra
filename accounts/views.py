@@ -3,12 +3,12 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.contrib.auth.tokens import default_token_generator
-from django.core.mail import send_mail
+# from django.contrib.auth.tokens import default_token_generator
+# from django.core.mail import send_mail
 from django.shortcuts import render, redirect
-from django.urls import reverse
-from django.utils.encoding import force_bytes
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+# from django.urls import reverse
+# from django.utils.encoding import force_bytes
+# from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
 from .forms import BusinessForm
 from .models import Business
@@ -109,12 +109,74 @@ def onboarding_view(request):
     )
 
 
+# def signup_view(request):
+#     if request.method == "POST":
+#         username = request.POST.get("username")
+#         email = request.POST.get("email")
+#         password = request.POST.get("password")
+
+#         if User.objects.filter(username=username).exists():
+#             messages.error(request, "Username is already taken.")
+#             return render(request, "accounts/signup.html")
+
+#         if User.objects.filter(email=email).exists():
+#             messages.error(request, "Email is already registered.")
+#             return render(request, "accounts/signup.html")
+
+#         user = User.objects.create_user(
+#             username=username,
+#             email=email,
+#             password=password,
+#         )
+#         user.is_active = True
+#         user.save()
+
+#         uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
+#         token = default_token_generator.make_token(user)
+#         activate_path = reverse(
+#             "activate",
+#             kwargs={"uidb64": uidb64, "token": token},
+#         )
+#         activation_link = request.build_absolute_uri(activate_path)
+
+#         subject = "Verify your BizSight account"
+#         message = (
+#             f"Hi {user.username},\n\n"
+#             "Thanks for signing up for BizSight.\n"
+#             "Please verify your email by clicking the link below:\n\n"
+#             f"{activation_link}\n\n"
+#             "If you didn't create this account, you can ignore this email."
+#         )
+
+#         try:
+#             send_mail(
+#                 subject,
+#                 message,
+#                 settings.DEFAULT_FROM_EMAIL,
+#                 [user.email],
+#                 fail_silently=False,
+#             )
+#             messages.success(
+#                 request,
+#                 "Account created successfully. Please log in.",
+#             )
+#             return redirect("login")
+#         except Exception as e:
+#             messages.error(
+#                 request,
+#                 f"Could not send verification email. Please try again later. ({e})",
+#             )
+#             return render(request, "accounts/signup.html")
+
+#     return render(request, "accounts/signup.html")
+
 def signup_view(request):
     if request.method == "POST":
         username = request.POST.get("username")
         email = request.POST.get("email")
         password = request.POST.get("password")
 
+        # Check if username or email already exists
         if User.objects.filter(username=username).exists():
             messages.error(request, "Username is already taken.")
             return render(request, "accounts/signup.html")
@@ -123,6 +185,7 @@ def signup_view(request):
             messages.error(request, "Email is already registered.")
             return render(request, "accounts/signup.html")
 
+        # Create user and activate immediately
         user = User.objects.create_user(
             username=username,
             email=email,
@@ -131,63 +194,32 @@ def signup_view(request):
         user.is_active = True
         user.save()
 
-        uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
-        token = default_token_generator.make_token(user)
-        activate_path = reverse(
-            "activate",
-            kwargs={"uidb64": uidb64, "token": token},
-        )
-        activation_link = request.build_absolute_uri(activate_path)
+        # Log the user in directly after signup
+        login(request, user)
+        messages.success(request, "Account created successfully. Welcome to BizSight!")
 
-        subject = "Verify your BizSight account"
-        message = (
-            f"Hi {user.username},\n\n"
-            "Thanks for signing up for BizSight.\n"
-            "Please verify your email by clicking the link below:\n\n"
-            f"{activation_link}\n\n"
-            "If you didn't create this account, you can ignore this email."
-        )
-
-        try:
-            send_mail(
-                subject,
-                message,
-                settings.DEFAULT_FROM_EMAIL,
-                [user.email],
-                fail_silently=False,
-            )
-            messages.success(
-                request,
-                "Account created successfully. Please log in.",
-            )
-            return redirect("login")
-        except Exception as e:
-            messages.error(
-                request,
-                f"Could not send verification email. Please try again later. ({e})",
-            )
-            return render(request, "accounts/signup.html")
+        # Redirect to onboarding (to set up business profile)
+        return redirect("onboarding")
 
     return render(request, "accounts/signup.html")
 
+# def activate_view(request, uidb64, token):
+#     try:
+#         uid = urlsafe_base64_decode(uidb64).decode()
+#         user = User.objects.get(pk=uid)
+#     except (User.DoesNotExist, ValueError, TypeError, OverflowError):
+#         user = None
 
-def activate_view(request, uidb64, token):
-    try:
-        uid = urlsafe_base64_decode(uidb64).decode()
-        user = User.objects.get(pk=uid)
-    except (User.DoesNotExist, ValueError, TypeError, OverflowError):
-        user = None
+#     if user and default_token_generator.check_token(user, token):
+#         user.is_active = True
+#         user.save()
 
-    if user and default_token_generator.check_token(user, token):
-        user.is_active = True
-        user.save()
+#         login(request, user)
+#         messages.success(
+#             request,
+#             "Your email has been verified. Let's set up your business profile.",
+#         )
+#         return redirect("onboarding")
 
-        login(request, user)
-        messages.success(
-            request,
-            "Your email has been verified. Let's set up your business profile.",
-        )
-        return redirect("onboarding")
-
-    messages.error(request, "Invalid or expired verification link.")
-    return redirect("signup")
+#     messages.error(request, "Invalid or expired verification link.")
+#     return redirect("signup")
