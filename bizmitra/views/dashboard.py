@@ -12,15 +12,10 @@ def dashboard_view(request):
     features = build_business_features(business)
     insights = generate_insights(features)
 
-    return render(
-        request,
-        "bizmitra/dashboard.html",
-        {
-            "business": business,
-            "features": features,
-            "insights": insights,
-            "features_json": json.dumps(features),
-            "insights_json": json.dumps(insights),
-        }
-    )
-
+    return render(request, "bizmitra/dashboard.html", {
+        "business": business,
+        "features": features,
+        "insights": insights,
+        "features_json": json.dumps(features),
+        "insights_json": json.dumps(insights),
+    })
