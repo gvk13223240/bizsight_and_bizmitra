@@ -31,10 +31,11 @@ def build_business_features(business):
     )
 
     return {
-        "bills_count": bills_count,
-        "unpaid_ratio": round(unpaid_ratio, 2),
-        "avg_bill_value": round(avg_bill_value, 2),
-        "risk": "low",
-        "sales_trend": "stable",
-        "total_sales": float(total_amount),
-    }
+    "bills_count": int(bills_count),
+    "unpaid_ratio": float(round(unpaid_ratio, 2)),
+    "avg_bill_value": float(round(avg_bill_value, 2)),
+    "risk": "low",
+    "sales_trend": "stable",
+    "total_sales": float(total_amount),
+}
+
