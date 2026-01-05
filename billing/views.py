@@ -28,7 +28,7 @@ from analytics_engine.services.item_metrics import get_top_items
 from analytics_engine.services.smart_insights import get_smart_insights
 from insights.services import get_bizmitra_insights
 
-from billing.utils import send_invoice_email
+# from billing.utils import send_invoice_email
 from .invoice_pdf import generate_invoice_pdf
 from .utils import generate_upi_qr
 from .models import Bill, BillItem, Payment
