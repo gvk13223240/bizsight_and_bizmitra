@@ -5,30 +5,30 @@ from pathlib import Path
 from django.template.loader import render_to_string
 from django.conf import settings
 
-from core.utils.brevo_email import send_email
+# from core.utils.brevo_email import send_email
 
 
 # =========================
 # EMAIL (Brevo API)
 # =========================
-def send_invoice_email(bill, pdf_path):
-    """
-    Send invoice email using Brevo API
-    """
+# def send_invoice_email(bill, pdf_path):
+#     """
+#     Send invoice email using Brevo API
+#     """
 
-    subject = f"Invoice {bill.bill_number}"
+#     subject = f"Invoice {bill.bill_number}"
 
-    html_content = render_to_string(
-        "billing/email_invoice.html",
-        {"bill": bill}
-    )
+#     html_content = render_to_string(
+#         "billing/email_invoice.html",
+#         {"bill": bill}
+#     )
 
-    send_email(
-        subject=subject,
-        html_content=html_content,
-        to_email=bill.customer_email,
-        attachments=[pdf_path],
-    )
+#     send_email(
+#         subject=subject,
+#         html_content=html_content,
+#         to_email=bill.customer_email,
+#         attachments=[pdf_path],
+#     )
 
 
 # =========================
