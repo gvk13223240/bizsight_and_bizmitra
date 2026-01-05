@@ -1,7 +1,10 @@
-from billing.models import Bill
+from billing.models import Bill, Business
 from django.db.models import Sum
 
 def build_business_features(business):
+    if not isinstance(business, Business):
+        raise ValueError("build_business_features expects a Business instance")
+
     bills = Bill.objects.filter(business=business, is_deleted=False)
 
     bills_count = bills.count()
@@ -31,8 +34,6 @@ def build_business_features(business):
         "bills_count": bills_count,
         "unpaid_ratio": round(unpaid_ratio, 2),
         "avg_bill_value": round(avg_bill_value, 2),
-
-        # SAFE DEFAULTS (important)
         "risk": "low",
         "sales_trend": "stable",
         "total_sales": float(total_amount),
