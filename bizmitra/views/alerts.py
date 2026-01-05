@@ -11,7 +11,7 @@ def alerts_view(request):
     if not business:
         return redirect("/accounts/login/")
     bills = business.bills.all()
-    features = build_business_features(business)
+    features = build_business_features(bills)
     alerts = generate_alerts(features)
 
     return render(request, "bizmitra/alerts.html", {
