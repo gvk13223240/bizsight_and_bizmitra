@@ -3,10 +3,14 @@
 def generate_alerts(features):
     alerts = []
 
-    bills = features["bills_count"]
-    unpaid_ratio = features["unpaid_ratio"]
-    sales_trend = features["sales_trend"]
+    # ✅ SAFE extraction (NO crashes)
+    bills = features.get("bills_count", 0)
+    unpaid_ratio = features.get("unpaid_ratio", 0)
+    sales_trend = features.get("sales_trend", "stable")
 
+    # -------------------------
+    # No activity case
+    # -------------------------
     if bills == 0:
         alerts.append({
             "level": "neutral",
@@ -15,6 +19,9 @@ def generate_alerts(features):
         })
         return alerts
 
+    # -------------------------
+    # Unpaid exposure
+    # -------------------------
     if unpaid_ratio == 0:
         alerts.append({
             "level": "success",
@@ -26,16 +33,19 @@ def generate_alerts(features):
         alerts.append({
             "level": "risk",
             "title": "High unpaid exposure",
-            "message": f"{int(unpaid_ratio*100)}% bills unpaid."
+            "message": f"{int(unpaid_ratio * 100)}% bills unpaid."
         })
 
     elif unpaid_ratio > 0.2:
         alerts.append({
             "level": "warning",
             "title": "Moderate unpaid exposure",
-            "message": f"{int(unpaid_ratio*100)}% bills unpaid."
+            "message": f"{int(unpaid_ratio * 100)}% bills unpaid."
         })
 
+    # -------------------------
+    # Sales trend
+    # -------------------------
     if sales_trend == "down":
         alerts.append({
             "level": "warning",
@@ -43,7 +53,9 @@ def generate_alerts(features):
             "message": "Sales in the last 30 days are lower than the previous period.",
         })
 
-    
+    # -------------------------
+    # Fallback
+    # -------------------------
     if not alerts:
         alerts.append({
             "level": "success",
