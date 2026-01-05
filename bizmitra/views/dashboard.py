@@ -9,8 +9,7 @@ def dashboard_view(request):
     if not business:
         return redirect("/accounts/login/")
 
-    bills = business.bills.all()
-    features = build_business_features(bills)
+    features = build_business_features(business)
     insights = generate_insights(features)
 
     return render(
@@ -24,3 +23,4 @@ def dashboard_view(request):
             "insights_json": json.dumps(insights),
         }
     )
+
