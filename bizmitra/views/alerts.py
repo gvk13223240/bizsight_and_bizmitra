@@ -10,7 +10,7 @@ def alerts_view(request):
     business = get_current_business(request)
     if not business:
         return redirect("/accounts/login/")
-
+    bills = business.bills.all()
     features = build_business_features(business)
     alerts = generate_alerts(features)
 
